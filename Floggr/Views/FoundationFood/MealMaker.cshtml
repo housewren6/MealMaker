@@ -1,0 +1,105 @@
+﻿@model Floggr.Models.ViewModels.MealMakerView
+
+@{
+    ViewData["Title"] = "Meal Maker";
+}
+@*
+<p>Protein:  @Html.DisplayFor(model => model.Protein.foodName)</p>
+<p>Grain: @Html.DisplayFor(model => model.Grain.foodName)</p>
+<p>Dairy or Fat: @Html.DisplayFor(model => model.DairyFat.foodName)</p>
+
+<p>Fruits: </p>
+@foreach (var fruit in Model.Fruits)
+{
+    <p>@Html.DisplayFor(model => fruit.foodName) | </p>
+}
+<p>Vegetables: </p>
+@foreach (var veg in Model.Vegetables)
+{
+    <p>@Html.DisplayFor(model => veg.foodName) | </p>
+}
+*@
+<!-- ======= Menu Section ======= -->
+
+<main id="main">
+    <section id="menu" class="menu">
+        <div class="container">
+
+            <div class="section-title">
+                <h2>What's on the <span>menu</span> ?</h2>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-12 d-flex justify-content-center">
+                    <ul id="menu-flters">
+                        <li data-filter="*" class="filter-active">Show All</li>
+                        <li data-filter=".filter-protein">Protein</li>
+                        <li data-filter=".filter-grain">Grain</li>
+                        <li data-filter=".filter-dairyfat">Dairy/Fat</li>
+                        <li data-filter=".filter-fruits">Fruits</li>
+                        <li data-filter=".filter-vegetables">Vegetables</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="row menu-container">
+                <div class="col-lg-6 menu-item filter-protein">
+                    <div class="menu-content">
+                        <a>@Html.DisplayFor(model => model.Protein.foodName)</a>
+                    </div>
+                    <div class="menu-ingredients">
+                        Protein
+                    </div>
+                </div>
+                <div class="col-lg-6 menu-item filter-grain">
+                    <div class="menu-content">
+                        <a>@Html.DisplayFor(model => model.Grain.foodName)</a>
+                    </div>
+                    <div class="menu-ingredients">
+                        Grain
+                    </div>
+                </div>
+                <div class="col-lg-6 menu-item filter-dairyfat">
+                    <div class="menu-content">
+                        <a>@Html.DisplayFor(model => model.DairyFat.foodName)</a>
+                    </div>
+                    <div class="menu-ingredients">
+                        Dairy/Fat
+                    </div>
+                </div>
+                @foreach (var fruit in Model.Fruits)
+                {
+                    <div class="col-lg-6 menu-item filter-fruits">
+                        <div class="menu-content">
+                            <a>@Html.DisplayFor(model => fruit.foodName)</a>
+                        </div>
+                        <div class="menu-ingredients">
+                            Fruit
+                        </div>
+                    </div>
+                }
+                @foreach (var veg in Model.Vegetables)
+                {
+                <div class="col-lg-6 menu-item filter-vegetables">
+                    <div class="menu-content">
+                            <a>@Html.DisplayFor(model => veg.foodName)</a>
+                    </div>
+                    <div class="menu-ingredients">
+                        Vegetable
+                    </div>
+                </div>
+                }
+            
+            </div>
+            <br />
+            <div>
+                <h3>Not happy with the results? <a href="" onclick="refreshPage">Try again!</a></h3>
+            </div>
+            <script>
+                function refreshPage() {
+                    window.location.reload();
+            </script>
+        </div>
+    </section><!-- End Menu Section -->
+</main>
+

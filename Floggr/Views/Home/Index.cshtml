@@ -1,0 +1,64 @@
+﻿@{
+    ViewData["Title"] = "Home";
+}
+<!-- ======= Hero Section ======= -->
+<section id="hero">
+    <div class="hero-container">
+        <div id="heroCarousel" data-bs-interval="5000" class="carousel slide carousel-fade" data-bs-ride="carousel">
+
+            <ol class="carousel-indicators" id="hero-carousel-indicators"></ol>
+
+            <div class="carousel-inner" role="listbox">
+
+                <!-- Slide 1 -->
+                <div id="carousel-item-one" class="carousel-item active" >
+                    <div class="carousel-container">
+                        <div class="carousel-content">
+                            <h2 class="animate__animated animate__fadeInDown"><span>Meal</span> Maker</h2>
+                            <p class="animate__animated animate__fadeInUp">Click the Make a Meal link below to receive a random list of ingredients to make a meal out of</p>
+                            <div>
+                                <a asp-area="" asp-controller="FoundationFood" asp-action="MealMaker" class="btn-menu animate__animated animate__fadeInUp scrollto">Make a meal!</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 2 -->
+                <div id="carousel-item-two" class="carousel-item">
+                    <div class="carousel-container">
+                        <div class="carousel-content">
+							<h2 class="animate__animated animate__fadeInDown">All <span>Foods</span></h2>
+                            <p class="animate__animated animate__fadeInUp">View all foods and their food category that are random food ingredients options by clicking the All Foods link below</p>
+                            <div>
+                                <a asp-area="" asp-controller="FoundationFood" asp-action="ListFoundationFoods" class="btn-menu animate__animated animate__fadeInUp scrollto">All Foods</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 3 -->
+                <div id="carousel-item-three"  class="carousel-item">
+                    <div class="carousel-container">
+                        <div class="carousel-content">
+                            <h2 class="animate__animated animate__fadeInDown">Food Logger</h2>
+                            <p class="animate__animated animate__fadeInUp">An upcoming feature to save meals' ingredients and view their nutritional facts!</p>
+                            <div>
+                                <a href="#" class="btn-menu animate__animated animate__fadeInUp scrollto">Coming soon</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <a class="carousel-control-prev" href="#heroCarousel" role="button" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon bi bi-chevron-left" aria-hidden="true"></span>
+            </a>
+
+            <a class="carousel-control-next" href="#heroCarousel" role="button" data-bs-slide="next">
+                <span class="carousel-control-next-icon bi bi-chevron-right" aria-hidden="true"></span>
+            </a>
+
+        </div>
+    </div>
+</section><!-- End Hero -->

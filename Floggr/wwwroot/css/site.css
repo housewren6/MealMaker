@@ -1,0 +1,38 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+#main-body-container {
+    padding-top: 80px;
+}
+#carousel-item-one {
+    background: url("../images/min-hero1-meals-luisa-brimble-2RrBE90w0T8-unsplash.jpg");
+}
+#carousel-item-two {
+    background: url("../images/min-hero2-foodVegetables-nathan-dumlao-bRdRUUtbxO0-unsplash.jpg");
+}
+#carousel-item-three {
+    background: url("../images/min-hero3-notebook-kelly-sikkema-9OGNpJPVMZ8-unsplash.jpg");
+}
+/*
+#paged-list-links a{
+    top:100px;
+    align-content:center;
+}*/
+#header {
+    top:0px;
+}

@@ -1,0 +1,53 @@
+﻿@model Floggr.Models.ViewModels.MealMakerView
+
+@{
+    ViewData["Title"] = "All Foods";
+}
+
+<h1>All Foods (Foundation Foods)</h1>
+<p>Data courtesy of <a href="https://fdc.nal.usda.gov/">USDA</a>. HouseWren Development utilized the JSON file and extracted, transformed and loaded food data into databases using Entity Frameworks. </p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.ActionLink("Food Name", "ListFoundationFoods", new {sortOrder = ViewBag.FoodNameSort})
+            </th>
+            <th>
+                @Html.ActionLink("Food Category", "ListFoundationFoods", new {sortOrder = ViewBag.FoodCatSort})
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.AllFoundationFoods) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.foodName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.foodCat)
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+@*
+@{
+    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+}
+<div id="paged-list-links">
+<a asp-action="ListFoundationFoods"
+   asp-route-sortOrder="@ViewData["CurrentSort"]"
+   asp-route-pageNumber="@(Model.PageIndex - 1)"
+	class="btn btn-default @prevDisabled">
+    Previous
+</a>
+<a asp-action="ListFoundationFoods"
+   asp-route-sortOrder="@ViewData["CurrentSort"]"
+   asp-route-pageNumber="@(Model.PageIndex + 1)"
+   class="btn btn-default @nextDisabled">
+    Next
+</a>
+</div>
+*@
