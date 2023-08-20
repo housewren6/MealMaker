@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
 using RootFoundationFoods;
-using PagedList.EntityFramework;
 using Floggr.Code;
 
 namespace Floggr.Controllers
@@ -28,8 +27,8 @@ namespace Floggr.Controllers
         {
             ViewBag.FoodNameSort = String.IsNullOrEmpty(sortOrder) ? "foodName" : "foodName";
             ViewBag.FoodCatSort = sortOrder == "foodCat" ? "foodCat" : "foodCat";
-            int pageSize = 20;
-            int ?pageNumber = (page ?? 1);
+            //int pageSize = 20;
+            //int ?pageNumber = (page ?? 1);
             
            //BUILD ONE TABLE WITH TWO COLUMNS, ONE FOR FOOD NAME AND ONE FOR FOOD DESCRIPTION. 
             var selectFoodNameCatResults = _context.FoundationFoods.Join(

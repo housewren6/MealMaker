@@ -1,6 +1,5 @@
 ﻿using RootFoundationFoods;
 using System.Collections.Generic;
-using PagedList;
 using Microsoft.EntityFrameworkCore;
 using Floggr.Code;
 
