@@ -20,9 +20,8 @@ namespace Floggr.Code
                 {
                     return; //DB is seeded
                 }
-
-                var jsonString = File.ReadAllText("./Data/foundationDownload.json");
-                if (jsonString != null)
+				var jsonString = File.ReadAllText("./Data/foundationDownload.json");
+				if (jsonString != null)
                 {
                     Root foundationFoods = JsonConvert.DeserializeObject<Root>(jsonString);
 

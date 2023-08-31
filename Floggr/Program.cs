@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Floggr.Code;
 using Floggr.Data;
+using HouseWrenDevelopment.Models.Contact;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,6 +9,22 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<FloggrContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("FloggrContext")));
 //builder.Services.AddDatabaseDeveloperPageExcepionFilter();
+//
+EmailServerConfig config = new EmailServerConfig
+{
+    SmtpPassword = Environment.GetEnvironmentVariable("smtpPassword"),
+    SmtpServer = "smtp.gmail.com",
+    SmtpUsername = Environment.GetEnvironmentVariable("smtpUsername")
+};
+
+EmailAddress ToEmailAddress = new EmailAddress
+{
+    Address = Environment.GetEnvironmentVariable("smtpUsername"),
+    Name = "HouseWrenDev"
+};
+builder.Services.AddSingleton<EmailServerConfig>(config);
+builder.Services.AddTransient<IEmailService, MailKitEmailService>();
+builder.Services.AddSingleton<EmailAddress>(ToEmailAddress);
 
 var app = builder.Build();
 

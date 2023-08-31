@@ -1,0 +1,70 @@
+﻿@model HouseWrenDevelopment.Models.Contact.ContactForm;
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+	ViewData["Title"] = "Contact";
+}
+<section id="contact" class="contact">
+    <div class="container" data-aos="fade-up">
+
+        <div class="section-title">
+            <h2>Contact</h2>
+            <p>House Wren Development</p>
+        </div>
+    </div>
+    <div class="container" data-aos="fade-up">
+
+        <div class="row mt-5">
+
+            <div class="col-lg-4">
+                <div class="info">
+                    <div class="address">
+                        <i class="bi bi-geo-alt"></i>
+                        <h4>Location</h4>
+                        <p>Central Maine, USA</p>
+                    </div>
+
+                    <div class="open-hours">
+                        <i><img src="~/images/In-Blue-34.png" alt="LinkedIn logo" height="30px" width="30px" /></i>
+                        <h4>LinkedIn</h4>
+                        <p>
+                            <a href="https://www.linkedin.com/in/housewrendevelopment/">linkedin.com/housewrendevelopment</a>
+                        </p>
+                    </div>
+
+                    <div class="email">
+                        <i><img src="~/images/github-mark-white.png" alt="GitHub logo" height="34px" width="34px" /></i>
+                        <h4>GitHub</h4>
+                        <p><a href="https://github.com/housewren6">github.com/housewren6</a></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-8 mt-5 mt-lg-0">
+                <form asp-action="Contact" asp-controller="Home" method="post">
+                    <div class="col-md-12 form-group">
+                        <label asp-for="Name" name="name" placeholder="Your name">The best way to refer to you:</label>
+                        <input type="text" name="name" class="form-control" id="name" placeholder="Hugh Mann" required>
+                    </div>
+                    <div class="col-md-12 form-group mt-3">
+                        <label asp-for="Email" name="email">Your best email address to be reached at:</label>
+                        <input type="email" class="form-control" name="email" id="email" placeholder="email@address.com" required>
+                    </div>
+                    <div class="col-md-12 form-group mt-3">
+                        <label asp-for="Subject" name="subject">Your best summary of why you are reaching out subject:</label>
+                        <input type="text" class="form-control" name="subject" id="subject" placeholder="the weather" required>
+                    </div>
+                    <div class="col-md-12 form-group mt-3">
+                        <label asp-for="Email">Your best message to House Wren Development:</label>
+                        <div>
+                            <textarea asp-for="Message" name="message" rows="8" placeholder="Sure is {currentWeather} outside. Have a day." required></textarea>
+                        </div>
+                    </div>
+                    <div class="text-center"><button type="submit">Send Message</button></div>
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+</section><!-- End Contact Section -->
