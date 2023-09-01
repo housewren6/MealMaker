@@ -28,11 +28,6 @@ body {
 #carousel-item-three {
     background: url("../images/min-hero3-notebook-kelly-sikkema-9OGNpJPVMZ8-unsplash.jpg");
 }
-/*
-#paged-list-links a{
-    top:100px;
-    align-content:center;
-}*/
 #header {
     top:0px;
 }
@@ -49,7 +44,6 @@ body {
 .contact .info-wrap .row .info p {
     font-size: 10px;
 }
-
 
 .contact .email-form {
   width: 100%;
@@ -86,6 +80,6 @@ body {
   border-radius: 50px;
 }
 
-.contact .email-form button[type=submit]:hover {
+.contact .email-form button:hover {
   background: #ffa012;
 }
