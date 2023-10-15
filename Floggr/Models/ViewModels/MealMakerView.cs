@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Floggr.Code;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Floggr.Models.ViewModels
 {
@@ -14,6 +15,9 @@ namespace Floggr.Models.ViewModels
 		public List<SelectFood> Vegetables { get; set; }
 		//public PaginatedList<SelectFood> AllFoundationFoods { get; set; }
 		public List<SelectFood> AllFoundationFoods { get; set; }
+		public string RecipeName { get; set; }
+		public string RecipeIngredients { get; set; }
+		public string RecipeInstructions { get; set; }
 
 		/*
         public List<listFoods> foods { get; set; }

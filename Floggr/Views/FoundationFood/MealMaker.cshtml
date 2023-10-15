@@ -26,7 +26,7 @@
         <div class="container">
 
             <div class="section-title">
-                <h2>What's on the <span>menu</span> ?</h2>
+                <h1>What's on the <span>menu</span> ?</h1>
             </div>
 
             <div class="row">
@@ -90,10 +90,20 @@
                 </div>
                 }
             
+            </div>      
+           
+            <div>
+                <h2>@Html.DisplayFor(model => model.RecipeName)</h2>
+                <ul>
+                    @Html.DisplayFor(model => model.RecipeIngredients)
+                </ul>
+                <ul>
+                    @Html.DisplayFor(model => model.RecipeInstructions)
+                </ul>
             </div>
-            <br />
             <div>
                 <h3>Not happy with the results? <a href="" onclick="refreshPage">Try again!</a></h3>
+                <p>Please note these recipes are suggestions and not tested. Please use best judgement to ensure food is cooked safely and tastes accordindly.</p>
             </div>
             <script>
                 function refreshPage() {
