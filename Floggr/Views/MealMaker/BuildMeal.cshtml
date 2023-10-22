@@ -4,11 +4,10 @@
 }
 
 <h1>Build a Meal</h1>
-
 <p>Select your ingredients to Build a Meal! <a href="https://www.myplate.gov/eat-healthy/what-is-myplate">USDA recommends a ratio like 1 Protein : 1 Grain : 1 Dairy /Fat : 1-2 Fruits : 2-3 Vegetables</a>, but you can select multiple or none of each food group. However, only so many foods can be selected at once. Alternatively, use the Random button to retrieve a totally random list of ingredients! </p>
 <div class="row">
     <div class="col-12 build-meal">
-        <form asp-action="ViewMeal" method="post">
+        <form asp-action="BuildMeal" id="build-meal-form" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>      
             <div class="form-group">
                 <label asp-for="Proteins" class="control-label"></label>           
@@ -43,21 +42,56 @@
                 </div>
             }
             <div class="form-group btn-meal-container">
-                <input type="submit" value="Build this Meal!" class="btn-meal" />
-            </div>
-                
-           
+                <button type="submit" class="btn-meal build-meal-button">Build this Meal!</button>
+                @* <input type="submit" value="Build this Meal!" class="btn-meal" /> *@
+            </div>            
         </form>  
         <div class="btn-meal-container">
-            <button class="btn-meal" onclick="window.location.href = '@Url.Action("MealMaker", "FoundationFood")'">Random!</button>
+            <button class="btn-meal build-meal-button" onclick="window.location.href = '@Url.Action("MealMaker", "FoundationFood")'">Random!</button>
         </div>
     </div>
 </div>
+<div id="loading-overlay" style="display: none;">
+    <div id="loading-spinner"></div>
+</div>
 
+<script src="~/js/jquery-3.7.1.min.js"></script>
+<script>
+    $(document).ready(function () {
+        //calls loading circle when form submit button is clicked to display until recipe call complete & redirect to View
+        $(".build-meal-button").on("click", function () {
+            showLoading();
+            var formData = $("#build-meal-form").serialize();
+            $.ajax({
+                type: "POST",
+                url: "/MealMaker/BuildMeal",
+                data: formData,
+                success: function (data) {
+                    ;
+                    hideLoading();
+                    $("body").html(data);
+                },
+                error: function () {
+                    hideLoading();
+                }
+            });
+        });
+    });
 
+    function showLoading() {
+        $("#loading-overlay").css("display", "flex");
+        $("#loading-overlay").show();
+        $("#loading-bar").animate({ width: "100%" }, 10000, function () { });
+    }
 
+    function hideLoading() {
+        $("#loading-bar").stop();
+        $("#loading-bar").width(0);
+        $("#loading-overlay").hide();
+    }
+</script> 
 @section Scripts {
     @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");        
     }
 }

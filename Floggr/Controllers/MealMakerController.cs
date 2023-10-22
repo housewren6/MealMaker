@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Floggr.Controllers
 {
+
     public class MealMakerController : Controller
     {
         private readonly FloggrContext _context;
@@ -24,7 +25,7 @@ namespace Floggr.Controllers
                 string errorMessage = TempData["ErrorMessage"].ToString();
 
                 // Display the error message in the view
-                ViewBag.ErrorMessage = errorMessage;                
+                ViewBag.ErrorMessage = errorMessage;
             }
             string[] arrProteins = {"Beef Products","Finfish and Shellfish Products", "Legumes and Legume Products",
                 "Nut and Seed Products", "Pork Products", "Poultry Products", "Sausages and Luncheon Meats" };
@@ -55,14 +56,47 @@ namespace Floggr.Controllers
         //POST: Build a Meal
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ViewMeal(MealMakerBuildView mmbv) //[Bind("Proteins")]
+        public async Task<IActionResult> BuildMeal(MealMakerBuildView mmbv) 
+        {
+            var propertiesToIterate = new List<List<string>>
+                {
+                    mmbv.Proteins,
+                    mmbv.Grains,
+                    mmbv.DairyFats,
+                    mmbv.Fruits,
+                    mmbv.Vegetables
+                };
+            var inputFoods = propertiesToIterate.SelectMany(x => x).ToList();          
+
+            MealView mealView = new MealView()
+            {
+                MealInstructions = await WriteRecipeAICall(inputFoods)
+            };
+            if (ModelState.IsValid) 
+            { return View("ViewMeal", mealView); } 
+            else            
+            { return RedirectToAction("BuildMeal"); }            
+        }
+
+        ////[HttpGet]
+        //public async Task<IActionResult> ViewMeal()
+        //{
+        //    return View();
+        //}
+
+        //[HttpPost]
+       
+        public async Task<string> WriteRecipeAICall(List<string> foods)
         {
             //model state expected: ingredients[& modifiers] to build recipe. 
             //calls ai api to make recipe
             //returns ingredients, amounts, instructions, recipe name 
             var api = new OpenAI_API.OpenAIAPI(Environment.GetEnvironmentVariable("OPENAI_API_KEY"));
             string AIPrompt = """
-                    Generate a unique recipe and the simple steps to safely prepare it. Include the meal name, the ingredients and their amount, and the clear step-by-step instructions. Please ensure recipes are distinct from the examples provided.
+                    Generate a unique recipe and the simple steps to safely prepare it. 
+                    Include the meal name, the ingredients and their amount, and the clear step-by-step instructions. 
+                    Please ensure recipes are distinct from the examples provided.
+
                     Examples:
                     Meal:
                     Eggplant Parmesan
@@ -104,26 +138,11 @@ namespace Floggr.Controllers
                     
                     Your task is to create a recipe that incorporates at least as many of the the following ingredients as possible: ";
                 """;
-            var propertiesToIterate = new List<List<string>>
-                {
-                    mmbv.Proteins,
-                    mmbv.Grains,
-                    mmbv.DairyFats,
-                    mmbv.Fruits,
-                    mmbv.Vegetables
-                };
-            foreach (var foodType in propertiesToIterate)
+            foreach (var food in foods)
             {
-                foreach (var food in foodType)
-                {
-                    AIPrompt += "(" + await _context.FoundationFoods.Where(f => f.foundationFoodID == int.Parse(food)).Select(f => f.description).FirstOrDefaultAsync() + "), ";
-                }
+                AIPrompt += "(" + await _context.FoundationFoods.Where(f => f.foundationFoodID == int.Parse(food)).Select(f => f.description).FirstOrDefaultAsync() + "), ";
             }
-            //from testing iterating through one collection of foods
-            //foreach (var food in mmbv.Proteins)
-            //{
-            //    AIPrompt += await _context.FoundationFoods.Where(f => f.foundationFoodID == int.Parse(food)).Select(f => f.description).FirstOrDefaultAsync() + ", ";
-            //}
+
             AIPrompt = AIPrompt.Substring(0, AIPrompt.Length - 2);
             AIPrompt += ".";
             if (AIPrompt.Length > 2900)
@@ -134,103 +153,10 @@ namespace Floggr.Controllers
             if (ModelState.IsValid)
             {
                 var apiresult = await api.Completions.CreateCompletionAsync(prompt: AIPrompt, model: OpenAI_API.Models.Model.DavinciText, temperature: 0.8, max_tokens: 1024);
-                string resultString = apiresult.ToString();
 
-                MealView mealView = new MealView()
-                {
-                    //MealInstructions = AIPrompt
-                    MealInstructions = resultString
-                    //MealInstructions = mmbv.selectProteins.ToString()
-                };
-                return View(mealView);
+                return apiresult.ToString(); ;
             }
-            //TODO: error handling
-            return RedirectToAction("BuildMeal");
+            return "";            
         }
-
-        [HttpGet]
-        public async Task<IActionResult> ViewMeal()
-        {
-
-            return View();
-        }
-
-
-        /*
-        // GET: MealMakerController
-        public ActionResult Index()
-        {
-            return View();
-        }
-
-        // GET: MealMakerController/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
-
-        // GET: MealMakerController/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: MealMakerController/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: MealMakerController/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: MealMakerController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: MealMakerController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: MealMakerController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-        */
     }
 }
