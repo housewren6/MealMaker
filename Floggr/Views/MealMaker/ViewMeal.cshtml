@@ -1,0 +1,11 @@
+﻿@model Floggr.Models.ViewModels.MealView
+@{
+    ViewData["Title"] = "View Meal";
+}
+
+<h1>Meal</h1>
+<pre class="view-meal">@Html.DisplayFor(model => model.MealInstructions,  new { htmlAttributes = new { @class = "preformatted-text" } })</pre>
+<p>Please note these recipes are suggestions and not tested. Please use best judgement to ensure food is cooked safely and tastes accordindly.</p>
+<div class="btn-meal-container">
+    <button class="btn-meal" onclick="window.location.href = '@Url.Action("BuildMeal", "MealMaker")'">Build a New Meal</button>
+</div>

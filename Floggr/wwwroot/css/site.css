@@ -5,7 +5,15 @@ html {
 @media (min-width: 768px) {
   html {
     font-size: 16px;
-  }
+  }    
+  /*.build-meal .form-group {
+    width: 250%;
+  }*/
+}
+@media (min-width: 992px) {
+    /*.build-meal .form-group {
+        width: 300%;
+    }*/
 }
 
 html {
@@ -83,3 +91,26 @@ body {
 .contact .email-form button:hover {
   background: #ffa012;
 }
+.view-meal {
+    font-family: "Poppins", sans-serif;
+    font-size: 1.2rem;
+    white-space: pre-wrap;
+    overflow-x: auto;
+}
+.btn-meal {
+    background: #ffb03b;
+    border: 0;
+    padding: 10px 24px;
+    color: #fff;
+    transition: 0.4s;
+    border-radius: 50px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+.btn-meal-container {
+    text-align: center;
+}
+.build-meal{
+    
+}
+

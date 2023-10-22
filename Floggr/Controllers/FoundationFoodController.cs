@@ -24,7 +24,7 @@ namespace Floggr.Controllers
         {
             return RedirectToAction();
         }
-		OpenAIController oac = new OpenAIController();
+		//OpenAIController oac = new OpenAIController();
 		// GET: FoundationFoods
 		public async Task<IActionResult> ListFoundationFoods(string sortOrder, int? page)
         {
@@ -97,87 +97,83 @@ namespace Floggr.Controllers
 					.OrderBy(f => Guid.NewGuid()).Take(1).FirstOrDefaultAsync();
             var fruits = await selectFoodNameCatResults
 					.Where(c => arrFruits.Contains(c.foodCat))
-					.OrderBy(f => Guid.NewGuid()).Take(2).ToListAsync();
+					.OrderBy(f => Guid.NewGuid()).Take(1).ToListAsync();
             var vegetables = await selectFoodNameCatResults
 					.Where(c => arrVegetables.Contains(c.foodCat))
 					.OrderBy(f => Guid.NewGuid()).Take(3).ToListAsync();
 
-
-
-			//var oac = new OpenAIController();
 			var api = new OpenAI_API.OpenAIAPI(Environment.GetEnvironmentVariable("OPENAI_API_KEY"));
-            string AIPrompt = $"Suggest a meal and the simple steps to prepare it with as many of the the following ingredients as " +
-                $"possible: {protein.foodName}, {grain.foodName}, {dairyfat.foodName}, {fruits[0].foodName}, {fruits[1].foodName}, " +
-                $"{vegetables[0].foodName}, {vegetables[1].foodName}, {vegetables[2].foodName}. ";
-           
-                //"""
-                //Suggest a meal and the simple steps to prepare it with the following ingredients: . 
-                //""";
-                //Meal: Fried Rice
-                //Ingredients: Rice, Onion, Celery, Carrot, Egg
-                //Steps: 1. Cook rice as the bag instructs. Let cool completely.
-                //2. Clean and chop the vegetables into a small dice.
-                //3. Fry the vegetables over medium high heat in a wok until translucent.
-                //4. Add the rice and egg to the wok, cooking egg completely through.
-                //5. Serve and enjoy.
+            string AIPrompt =
+               $"""
+                   Your task is to generate a unique recipe that includes the following ingredients: 
+                   ({protein.foodName}), ({grain.foodName}), ({dairyfat.foodName}), ){fruits[0].foodName}),  
+                   ({vegetables[0].foodName}), ){vegetables[1].foodName}), ){vegetables[2].foodName}).
+                   Please provide the meal name, the ingredients full names and their amount, and the simple, clear step-by-step instructions to safely prepare it. 
+                   Please ensure recipes are distinct from the examples provided but include ingredients from the provided list.
+
+                   Examples:
+                   Meal:
+                   Eggplant Parmesan
+
+                   Ingredients:
+                   1lb purple eggplant
+                   1 cup breadcrumbs
+                   1 egg 
+                   1 lb mozarella 
+                   1 pt tomato sauce 
+                   1 lb pasta, any type
+
+                   Instructions:
+                   1. Slice the eggplant into 1" rounds.
+                   2. Prepage egg wash by whisking egg and a splash of water together in a bowl. 
+                   3. Prepare eggplant by dredging in egg wash and coating in bread crumbs. Place the prepared eggplant on a lined baking sheet. Season the breadcrumbs or eggplant as desired.
+                   4. Bake in oven at 450 for 30 minutes. 
+                   5. While the eggplant cooks, prepare pasta in boiled water per instructions on box.
+                   6. When the pasta is finished and the eggplant is cooked, place slices of mozarella on the eggplant to melt for 5 minutes under a broil, and mix the tomato sauce in with the pasta.
+                   7. Serve the pasta and eggplant together and enjoy. 
+
+                   Meal: 
+                   Fried Rice
+
+                   Ingredients:
+                   1 lb rice, precooked
+                   1 onion
+                   1 lb carrots
+                   1 napa cabbage
+                   4 eggs
+
+                   Instructions: 
+                   1. Slice the carrots and saute with oil in a pan or wok on medium heat. 
+                   2. Dice the onions, and add to the pan when the carrots are about halfway cooked. 
+                   3. Shred the cabbage, and add to the pan to fry on medium-high heat. Season vegetables as desired.
+                   4. Add the rice and eggs to the pan, frying and mixing all together until all eggs have cooked. 
+                   5. Serve with a sauce if desired, and enjoy.                
+                    
+               """;
                 
-                //Meal: Spaghetti and Marinara
-                //Ingredients: Spaghetti pasta, tomato sauce, eggplant, onions, mozarella cheese
-                //Steps: 1. Chop eggplant into 1/2\" thick rounds, season and bake at 450 in an oven for 30 minutes. 
-                //2. Cook spaghetti pasta as instructed on box. Boil until al dente then strain.
-                //3. Chop and saute the onions over medium heat until translucent.
-                //4. Add tomato sauce to onions and season to taste. 
-                //5. Combine cooked eggplant, spaghetti pasta, and sauce in a large pot. Cover with mozarella cheese and let melt.
-                //6. Serve and enjoy.
-                
-                //Meal:
-                //Ingredients:
-                //""";
-			var apiresult = await api.Completions.CreateCompletionAsync(prompt: AIPrompt,
-                model: OpenAI_API.Models.Model.DavinciText, temperature: 0.8, max_tokens: 1024);
+            var apiresult = await api.Completions.CreateCompletionAsync(prompt: AIPrompt,
+                model: OpenAI_API.Models.Model.DavinciText, temperature: 0.8, max_tokens: 2000);
             string resultString = apiresult.ToString();
-            int ingredientsIndex = resultString.IndexOf("Ingredients:");
-			int instructionsIndex = resultString.IndexOf("Instructions:");
-            if( ingredientsIndex <= 0 || instructionsIndex <= 0 ) { return View(); }
-			string recipeName = resultString.Substring(0, ingredientsIndex);
-            string ingredients = resultString.Substring(ingredientsIndex, instructionsIndex-ingredientsIndex); 
-			string instructions = resultString.Substring(instructionsIndex);
+            //int ingredientsIndex = resultString.IndexOf("Ingredients:");
+            //int instructionsIndex = resultString.IndexOf("Instructions:");
+            //if (ingredientsIndex <= 0 || instructionsIndex <= 0) { return View(); }
+            //string recipeName = resultString.Substring(0, ingredientsIndex);
+            //string ingredients = resultString.Substring(ingredientsIndex, instructionsIndex - ingredientsIndex);
+            //string instructions = resultString.Substring(instructionsIndex);
 
-
-			// should print something starting with "Three"
-			//FINALLY, BUILD VIEWMODEL
-			MealMakerView mealMakerView = new MealMakerView() {
-                //foods = proteinResults.ToList(),
-                Protein = protein,
-                Grain = grain,
-                DairyFat = dairyfat,
-                Fruits = fruits,
-                Vegetables = vegetables,
-                RecipeName = recipeName,
-                RecipeIngredients = ingredients,
-                RecipeInstructions = instructions
-                //oac.UseOpenAI("Suggest a vegetarian meal and the simple steps to prepare it with five ingredients. " +
-                //"\r\n\r\n    Meal: Fried Rice\r\n    " +
-                //"Ingredients: Rice, Onion, Celery, Carrot, Egg\r\n    " +
-                //"Steps: 1. Cook rice as the bag instructs. Let cool completely.\r\n    " +
-                //"2. Clean and chop the vegetables into a small dice.\r\n    " +
-                //"3. Fry the vegetables over medium high heat in a wok until translucent. \r\n    " +
-                //"4. Add the rice and egg to the wok, cooking egg completely through. \r\n    " +
-                //"5. Serve and enjoy.\r\n\r\n    " +
-                //"" +
-                //"Meal: Spaghetti and Marinara\r\n    " +
-                //"Ingredients: Spaghetti pasta, tomato sauce, eggplant, onions, mozarella cheese\r\n    " +
-                //"Steps: 1. Chop eggplant into 1/2\" thick rounds, season and bake at 450 in an oven for 30 minutes. \r\n    " +
-                //"2. Cook spaghetti pasta as instructed on box. Boil until al dente then strain.\r\n    " +
-                //"3. Chop and saute the onions over medium heat until translucent.\r\n    " +
-                //"4. Add tomato sauce to onions and season to taste. \r\n    " +
-                //"5. Combine cooked eggplant, spaghetti pasta, and sauce in a large pot. Cover with mozarella cheese and let melt.\r\n    " +
-                //"6. Serve and enjoy.\r\n     \r\n    " +
-                //"" +
-                //"Meal: ")
-            };
-
-           
+            //FINALLY, BUILD VIEWMODEL
+            MealMakerView mealMakerView = new MealMakerView() {
+                ////foods = proteinResults.ToList(),
+                //Protein = protein,
+                //Grain = grain,
+                //DairyFat = dairyfat,
+                //Fruits = fruits,
+                //Vegetables = vegetables,
+                //RecipeName = recipeName,
+                //RecipeIngredients = ingredients,
+                //RecipeInstructions = instructions
+                RecipeInstructions = resultString                
+            };        
 
 
             return View(mealMakerView);

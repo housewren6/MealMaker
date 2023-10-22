@@ -1,0 +1,63 @@
+﻿@model Floggr.Models.ViewModels.MealMakerBuildView
+@{
+    ViewData["Title"] = "Build a Meal";
+}
+
+<h1>Build a Meal</h1>
+
+<p>Select your ingredients to Build a Meal! <a href="https://www.myplate.gov/eat-healthy/what-is-myplate">USDA recommends a ratio like 1 Protein : 1 Grain : 1 Dairy /Fat : 1-2 Fruits : 2-3 Vegetables</a>, but you can select multiple or none of each food group. However, only so many foods can be selected at once. Alternatively, use the Random button to retrieve a totally random list of ingredients! </p>
+<div class="row">
+    <div class="col-12 build-meal">
+        <form asp-action="ViewMeal" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>      
+            <div class="form-group">
+                <label asp-for="Proteins" class="control-label"></label>           
+                @Html.ListBoxFor(model => model.Proteins, Model.selectProteins, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Proteins, "", new { @class = "text-danger" })
+                <span asp-validation-for="Proteins" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Grains" class="control-label"></label>
+                @Html.ListBoxFor(model => Model.Grains, Model.selectGrains , new { @class="form-control"})
+                <span asp-validation-for="Grains" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DairyFats" class="control-label"></label>
+                @Html.ListBoxFor(model => Model.DairyFats, Model.selectDairyFats , new { @class="form-control"})
+                <span asp-validation-for="DairyFats" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Fruits" class="control-label"></label>
+                @Html.ListBoxFor(model => Model.Fruits, Model.selectFruits , new { @class="form-control"})
+                <span asp-validation-for="Fruits" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Vegetables" class="control-label"></label>
+                @Html.ListBoxFor(model => Model.Vegetables, Model.selectVegetables, new { @class="form-control"})
+                <span asp-validation-for="Vegetables" class="text-danger"></span>
+            </div>
+            @if (ViewBag.ErrorMessage != null)
+            {
+                <div class="alert alert-danger">
+                    @ViewBag.ErrorMessage
+                </div>
+            }
+            <div class="form-group btn-meal-container">
+                <input type="submit" value="Build this Meal!" class="btn-meal" />
+            </div>
+                
+           
+        </form>  
+        <div class="btn-meal-container">
+            <button class="btn-meal" onclick="window.location.href = '@Url.Action("MealMaker", "FoundationFood")'">Random!</button>
+        </div>
+    </div>
+</div>
+
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
