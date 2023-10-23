@@ -12,9 +12,7 @@ namespace Floggr.Controllers
 {
     public class FoundationFoodController : Controller
     {
-
         private readonly FloggrContext _context;
-
         public FoundationFoodController(FloggrContext context)
         {
             _context = context;
@@ -24,22 +22,33 @@ namespace Floggr.Controllers
         {
             return RedirectToAction();
         }
-		//OpenAIController oac = new OpenAIController();
+		 
 		// GET: FoundationFoods
-		public async Task<IActionResult> ListFoundationFoods(string sortOrder, int? page)
+		public async Task<IActionResult> ListFoundationFoods(string sortOrder, int? page, int? pageSize, string searchTerm)
         {
             ViewBag.FoodNameSort = String.IsNullOrEmpty(sortOrder) ? "foodName" : "foodName";
             ViewBag.FoodCatSort = sortOrder == "foodCat" ? "foodCat" : "foodCat";
-            //int pageSize = 20;
-            //int ?pageNumber = (page ?? 1);
-            
-           //BUILD ONE TABLE WITH TWO COLUMNS, ONE FOR FOOD NAME AND ONE FOR FOOD DESCRIPTION. 
+            ViewBag.CurrentSort = sortOrder;
+            ViewData["CurrentSort"] = sortOrder;
+
+            int itemsPerPage = pageSize ?? 10;
+            int pageNumber = page ?? 1;
+            ViewData["ItemsPerPage"] = itemsPerPage;
+
+            //BUILD ONE TABLE WITH TWO COLUMNS, ONE FOR FOOD NAME AND ONE FOR FOOD DESCRIPTION. 
             var selectFoodNameCatResults = _context.FoundationFoods.Join(
             _context.FoodCategories,
             food => food.foodCategoryID,
             foodCat => foodCat.foodCategoryID,
             (food, foodCat) =>
             new SelectFood { foodName = food.description, foodID = food.foundationFoodID, foodCat = foodCat.description });
+
+            if (!string.IsNullOrEmpty(searchTerm))
+            {
+                selectFoodNameCatResults = selectFoodNameCatResults
+                    .Where(food => food.foodName.Contains(searchTerm));
+            }
+
             switch (sortOrder)
             {
                 case "foodName":
@@ -52,20 +61,34 @@ namespace Floggr.Controllers
                     selectFoodNameCatResults = selectFoodNameCatResults.OrderBy(s => s.foodID);
                     break;
             }
-            //var allFoodPaginatedList = PaginatedList<SelectFood>.CreateAsync(selectFoodNameCatResults.AsNoTracking(), pageNumber ?? 1, pageSize);
-            //ListInfo listInfo = new ListInfo();
+
+            if (itemsPerPage == 0)
+            {
+                //Get all records, no pagination
+                var allFoundationFoods = selectFoodNameCatResults.ToList();
+                var mmv = new MealMakerView()
+                {
+                    AllFoundationFoods = await selectFoodNameCatResults.ToListAsync(),
+                    HasPreviousPage = false, 
+                    HasNextPage = false, 
+                    PageIndex = 1,
+                    PageCount = 1, 
+                    PageSize = allFoundationFoods.Count 
+                };
+
+                return View(mmv);
+            }
+            int pageCount = await selectFoodNameCatResults.CountAsync();
+            var paginatedFoods = new PaginatedList<SelectFood>(selectFoodNameCatResults.ToList(), pageCount, pageNumber, itemsPerPage);
             MealMakerView mealMakerView = new MealMakerView()
             {
-                AllFoundationFoods = await selectFoodNameCatResults.ToListAsync()
-                //AllFoundationFoods = await selectFoodNameCatResults.ToPagedListAsync(pageNumber, pageSize)
-                //AllFoundationFoods = await allFoodPaginatedList,
-               // HasPreviousPage = listInfo.hasPreviousPage,
-                //HasNextPage = listInfo.hasNextPage,
-                //PageIndex = listInfo.pageNumber
-
+                AllFoundationFoods = paginatedFoods.Items,
+                HasPreviousPage = paginatedFoods.HasPreviousPage,
+                HasNextPage = paginatedFoods.HasNextPage,
+                PageIndex = paginatedFoods.PageIndex,
+                PageCount = paginatedFoods.TotalPages,
+                PageSize = itemsPerPage
             };
-            //return View();
-            //return View(await _context.FoundationFoods.ToListAsync());
             return View(mealMakerView);
         }
         // GET: MealMaker view with all new random results
@@ -154,12 +177,6 @@ namespace Floggr.Controllers
             var apiresult = await api.Completions.CreateCompletionAsync(prompt: AIPrompt,
                 model: OpenAI_API.Models.Model.DavinciText, temperature: 0.8, max_tokens: 2000);
             string resultString = apiresult.ToString();
-            //int ingredientsIndex = resultString.IndexOf("Ingredients:");
-            //int instructionsIndex = resultString.IndexOf("Instructions:");
-            //if (ingredientsIndex <= 0 || instructionsIndex <= 0) { return View(); }
-            //string recipeName = resultString.Substring(0, ingredientsIndex);
-            //string ingredients = resultString.Substring(ingredientsIndex, instructionsIndex - ingredientsIndex);
-            //string instructions = resultString.Substring(instructionsIndex);
 
             //FINALLY, BUILD VIEWMODEL
             MealMakerView mealMakerView = new MealMakerView() {
@@ -174,9 +191,7 @@ namespace Floggr.Controllers
                 //RecipeInstructions = instructions
                 RecipeInstructions = resultString                
             };        
-
-
             return View(mealMakerView);
-        }
+        }       
     }
 }

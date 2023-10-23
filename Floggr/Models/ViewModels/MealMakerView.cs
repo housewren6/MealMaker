@@ -24,12 +24,14 @@ namespace Floggr.Models.ViewModels
         public MealMakerView() { }
 		public int proteinCount { get; set; }
 		public SelectFood selectFood { get; set; }*/
-		//public bool HasPreviousPage { get; set; }
-  //      public bool HasNextPage { get; set; }
-		//public int PageIndex { get; set; }
+		public bool HasPreviousPage { get; set; }
+		public bool HasNextPage { get; set; }
+		public int PageIndex { get; set; }
+		public int PageCount { get; set; }
+		public int PageSize { get; set; }
 
 
-    }
+	}
 	//public class listFoods
 	//{
 	//	public string foodName { get; set; }

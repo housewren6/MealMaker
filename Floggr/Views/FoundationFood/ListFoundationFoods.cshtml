@@ -6,15 +6,24 @@
 
 <h1>All Foods</h1>
 <p>Data courtesy of <a href="https://fdc.nal.usda.gov/">USDA FoodData Central</a></p>
-
+<div class="food-search btn-food-container">
+    <form method="get" action="@Url.Action("ListFoundationFoods")" class="search-form">
+        <input type="text" name="searchTerm" placeholder="Search foods..." />
+        <div>
+            <button class="btn-food" type="submit">Search</button>
+            <button class="btn-food" onclick="window.location.href = '@Url.Action("ListFoundationFoods", "FoundationFood")'">Get all foods</button>
+        </div>      
+    </form>
+    
+</div>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.ActionLink("Food Name", "ListFoundationFoods", new {sortOrder = ViewBag.FoodNameSort})
+                @Html.ActionLink("Food Name", "ListFoundationFoods", new {sortOrder = ViewBag.FoodNameSort, pageSize = ViewData["ItemsPerPage"], searchTerm = ViewData["SearchTerm"]})
             </th>
             <th>
-                @Html.ActionLink("Food Category", "ListFoundationFoods", new {sortOrder = ViewBag.FoodCatSort})
+                @Html.ActionLink("Food Category", "ListFoundationFoods", new {sortOrder = ViewBag.FoodCatSort, pageSize = ViewData["ItemsPerPage"], searchTerm = ViewData["SearchTerm"]})
             </th>
         </tr>
     </thead>
@@ -32,24 +41,57 @@
     </tbody>
 </table>
 <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
-
-@*
 @{
-    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
-    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+    int itemsPerPage = (int)ViewData["ItemsPerPage"];
+    string searchTerm = (string)ViewData["SearchTerm"];
 }
-<div id="paged-list-links">
-<a asp-action="ListFoundationFoods"
-   asp-route-sortOrder="@ViewData["CurrentSort"]"
-   asp-route-pageNumber="@(Model.PageIndex - 1)"
-	class="btn btn-default @prevDisabled">
-    Previous
-</a>
-<a asp-action="ListFoundationFoods"
-   asp-route-sortOrder="@ViewData["CurrentSort"]"
-   asp-route-pageNumber="@(Model.PageIndex + 1)"
-   class="btn btn-default @nextDisabled">
-    Next
-</a>
+<div class="pagination col-12">    
+    @if (Model.HasPreviousPage)
+    {
+        <a asp-action="ListFoundationFoods" asp-route-sortOrder="@ViewData["CurrentSort"]" asp-route-page="@(Model.PageIndex - 1)" asp-route-pageSize="@itemsPerPage" asp-route-searchTerm="@searchTerm" class="arrow-button">◄</a>
+        <a asp-action="ListFoundationFoods" asp-route-sortOrder="@ViewData["CurrentSort"]" asp-route-page="1" asp-route-pageSize="@itemsPerPage" asp-route-searchTerm="@searchTerm">First</a>
+    }
+    @if (itemsPerPage == 0)
+    {
+        <a class="pagination-link active" asp-action="ListFoundationFoods" asp-route-sortOrder="@ViewData["CurrentSort"]" asp-route-page="1" asp-route-pageSize="1" asp-route-searchTerm="@searchTerm">All</a>
+    }
+    else {
+        @foreach (var i in Enumerable.Range(1, Model.PageCount))
+        {
+            <a class="pagination-link @(i == Model.PageIndex ? "active" : "")" asp-action="ListFoundationFoods" asp-route-sortOrder="@ViewData["CurrentSort"]" asp-route-page="@i" asp-route-pageSize="@itemsPerPage" asp-route-searchTerm="@searchTerm">@i</a>
+        }
+    }
+    @if (Model.HasNextPage)
+    {
+        <a asp-action="ListFoundationFoods" asp-route-sortOrder="@ViewData["CurrentSort"]" asp-route-page="@(Model.PageCount)" asp-route-pageSize="@itemsPerPage" asp-route-searchTerm="@searchTerm">Last</a>
+        <a asp-action="ListFoundationFoods" asp-route-sortOrder="@ViewData["CurrentSort"]" asp-route-page="@(Model.PageIndex + 1)" asp-route-pageSize="@itemsPerPage" asp-route-searchTerm="@searchTerm" class="arrow-button">►</a>
+    }
 </div>
-*@
+<form class="page-size-select"asp-controller="FoundationFood" asp-action="ListFoundationFoods" method="get">
+    <label for="pageSize">Items per page:</label>
+    <select name="pageSize" id="pageSizeSelect">
+        <option value="10">10</option>
+        <option value="20">20</option>
+        <option value="50">50</option>
+        <option value="0">All</option>
+    </select>
+    <input type="submit" value="Apply">
+</form>
+
+<script src="~/js/jquery-3.7.1.min.js"></script>
+<script>
+    $(document).ready(function () {
+        const selectedPageSize = localStorage.getItem('pageSize') ?? 10;
+
+        $('#pageSizeSelect').val(selectedPageSize);
+
+        $('#pageSizeSelect').change(function () {
+            const selectedValue = $(this).val();
+            localStorage.setItem('pageSize', selectedValue);
+
+            location.reload();
+        });
+    });
+</script>
+
+

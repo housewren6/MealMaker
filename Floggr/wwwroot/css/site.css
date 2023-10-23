@@ -10,6 +10,11 @@ html {
     width: 250%;
   }*/
 }
+@media (max-width: 768px){
+    .pagination .pagination-link {
+        display: none;
+    }
+}
 @media (min-width: 992px) {
     /*.build-meal .form-group {
         width: 300%;
@@ -107,6 +112,24 @@ body {
     margin-top: 20px;
     margin-bottom: 20px;
 }
+.btn-food-container {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.btn-food {
+    background: #ffb03b;
+    border: 0;
+    padding: 10px 24px;
+    color: #fff;
+    transition: 0.4s;
+    border-radius: 50px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
 .btn-meal-container {
     text-align: center;
 }
@@ -142,5 +165,32 @@ body {
         transform: rotate(360deg);
     }
 }
+.arrow-button {
+    font-size: 1.5rem;
+    padding: 0 16px;
+}
 
+.arrow-button:hover {
+    text-decoration: none;
+}
+.pagination {
+    justify-content: center;
+    max-width: 90% 
+    
+}
+.pagination a {
+    margin: 0px 2px 0px 2px;
+    font-size: 1.1rem;
+    
+}
+a {
+    text-decoration: underline;
+}
+.pagination .active {
+    color: #212529 !important;
+    text-decoration: none;
+}
+.page-size-select{
+    padding-top: 20px;
+}
 
