@@ -47,7 +47,7 @@
             </div>            
         </form>  
         <div class="btn-meal-container">
-            <button class="btn-meal build-meal-button" onclick="window.location.href = '@Url.Action("MealMaker", "FoundationFood")'">Random!</button>
+            <button class="btn-meal build-random-meal-button" @* onclick="window.location.href = '@Url.Action("ViewRandomMeal", "MealMaker")'" *@>Random!</button>
         </div>
     </div>
 </div>
@@ -60,11 +60,35 @@
     $(document).ready(function () {
         //calls loading circle when form submit button is clicked to display until recipe call complete & redirect to View
         $(".build-meal-button").on("click", function () {
+            // $(this).prop("disabled", true);
             showLoading();
             var formData = $("#build-meal-form").serialize();
             $.ajax({
                 type: "POST",
+                // url: "/MealMaker/ViewMeal",
                 url: "/MealMaker/BuildMeal",
+                data: formData,
+                success: function (data) {
+                    ;
+                    hideLoading();
+                    $("body").html(data);
+                },
+                error: function () {
+                    hideLoading();
+                }
+            });
+        });
+    });
+    $(document).ready(function () {
+        //calls loading circle when form submit button is clicked to display until recipe call complete & redirect to View
+        $(".build-random-meal-button").on("click", function () {
+            // $(this).prop("disabled", true);
+            showLoading();
+            var formData = $("#build-meal-form").serialize();
+            $.ajax({
+                type: "POST",
+                // url: "/MealMaker/ViewMeal",
+                url: "/MealMaker/ViewRandomMeal",
                 data: formData,
                 success: function (data) {
                     ;

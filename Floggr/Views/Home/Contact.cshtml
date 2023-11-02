@@ -42,20 +42,20 @@
             <form asp-action="Contact" asp-controller="Home" method="post" class="email-form">
                 <div class="row">
                     <div class="col-md-6 form-group">
-                        <label asp-for="Name" name="name" placeholder="Your name">The best way to refer to you:</label>
+                        <label asp-for="Name" name="name" placeholder="Your name">Your name</label>
                         <input type="text" name="name" class="form-control" id="name" placeholder="Hugh Mann" required>
                     </div>
                     <div class="col-md-6 form-group mt-3 mt-md-0">
-                        <label asp-for="Email" name="email">The best email address to reach you at:</label>
+                        <label asp-for="Email" name="email">Your contact email</label>
                         <input type="email" class="form-control" name="email" id="email" placeholder="email@address.com" required>
                     </div>
                 </div>
                 <div class="form-group mt-3">
-                    <label asp-for="Subject" name="subject">The best description of why you are reaching out:</label>
+                    <label asp-for="Subject" name="subject">Your reason for contacting</label>
                     <input type="text" class="form-control" name="subject" id="subject" placeholder="the weather" required>
                 </div>
                 <div class="form-group mt-3">
-                    <label asp-for="Email">Your best message to House Wren Development:</label>
+                    <label asp-for="Email">Your message information</label>
                     <textarea class="form-control" asp-for="Message" name="message" rows="8" placeholder="Sure is weather outside. Have a day." required></textarea>
                 </div>
                 <div class="text-center"><button type="submit">Send Message</button></div>

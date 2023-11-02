@@ -3,10 +3,12 @@
     ViewData["Title"] = "Error";
 }
 
-<h1 class="text-danger">Error.</h1>
-<h2 class="text-danger">An error occurred while processing your request.</h2>
+<h1 class="text-danger">Whoops!</h1>
+<h2 class="text-danger">An unexpected error occurred while processing your request.</h2>
 
-@if (Model.ShowRequestId)
+<p>Please go back and try again. If this issue persists, please report this using our <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Contact">Contact</a> page.</p>
+
+@* @if (Model.ShowRequestId)
 {
     <p>
         <strong>Request ID:</strong> <code>@Model.RequestId</code>
@@ -23,3 +25,4 @@
     For local debugging, enable the <strong>Development</strong> environment by setting the <strong>ASPNETCORE_ENVIRONMENT</strong> environment variable to <strong>Development</strong>
     and restarting the app.
 </p>
+ *@
