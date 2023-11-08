@@ -64,9 +64,7 @@
                         <li class="nav-item">
                             <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="About">About</a>
-                        </li>
+                        
                         <li class="nav-item">
                             <a class="nav-link" asp-area="" asp-controller="FoundationFood" asp-action="ListfoundationFoods">All Foods</a>
                         </li>
@@ -75,6 +73,12 @@
                         </li> *@
                         <li class="nav-item">
                             <a class ="nav-link" asp-area="" asp-controller="MealMaker" asp-action="BuildMeal">Meal Maker</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="About">About</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Help">Help</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Contact">Contact</a>
@@ -97,11 +101,11 @@
     <footer id="footer">
         <div class="container">
 			<h3>MealMaker</h3>
-            <a asp-area="" asp-controller="Home" asp-action="Index">Home</a>        
+            <a asp-area="" asp-controller="Home" asp-action="Index">Home</a>     
+            <a asp-area="" asp-controller="Home" asp-action="About">About</a>
+            <a asp-area="" asp-controller="Home" asp-action="Help">FAQ</a>
         <div class="social-links"> @*HWD | GitHub | LinkedIn |Instagram *@
-            <a href="https://housewrendevelopment.azurewebsites.net" class="twitter"><img src="~/images/icons8-bird-16.png" alt="House Wren Development Bird logo" height="22px" width="22px"/></a>
-			<a href="https://github.com/housewrendevelopment" class="google-plus"><img src="~/images/github-mark-white.png" alt="GitHub logo" height="22px" width="22px"/></a>          
-            <a href="https://www.linkedin.com/in/housewrendevelopment/" class="linkedin"><i class="bx bxl-linkedin"></i></a>
+            <a href="https://housewrendevelopment.azurewebsites.net" class="twitter"><img src="~/images/icons8-bird-16.png" alt="House Wren Development Bird logo" height="22px" width="22px"/></a>			
             <a href="https://www.instagram.com/housewrendevelopment/" class="instagram"><i class="bx bxl-instagram"></i></a>  
         </div>
         <div class="copyright">

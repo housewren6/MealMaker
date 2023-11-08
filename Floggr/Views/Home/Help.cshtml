@@ -1,0 +1,41 @@
+﻿@{
+    ViewData["Title"] = "Help";
+}
+<h1>Help</h1>
+<p>Our goal is for this app to be intuitive and accessible for any interested food consumer to utilize. But we can only explain so much on the recipe builder page while keeping our app easy to use! Below are some of our most commonly asked questions; we love questions. If you don't see your question below, <a asp-area="" asp-controller="Home" asp-action="Contact">please reach out!</a></p>
+
+<section id="accordian-faq">
+    <h2>Frequently Asked Questions</h2>
+    <button class="accordion">Why does this website take so long to load the first time I visit the homepage?</button>
+    <div class="panel">
+        <p>If MealMaker hasn't been visited fairly recently, for example in the last half hour or so, the app transitions to an idle state on the server. As this app is currently (prospectively, and forever) free to use, having this brief waiting period keeps the hosting costs to a minimum! While I agree the 3-10 second waiting period when you first visit the site is annoying and you have no way to know if it's your connection or the site, our goal is to keep this app open and available to as many users as possible. Keeping these hosting costs down helps support that goal!</p>
+    </div>
+
+    <button class="accordion">Why are my recipe calls limited by time?</button>
+    <div class="panel">
+        <p>I get it, the tool is fun to use and you deserve all the recipes! However, AIs, including the OpenAI Engines, work with massive codebases to return the most helpful information to the input. Thankfully these resources are avaialble to use, but it quickly becomes expensive to use this engine. Aligning with our goal to keep MealMaker (prospectively forever) free to use, abiding by the three calls per minute limitation helps keep this app's hosting costs to a minimum!</p>
+    </div>
+
+    <button class="accordion">Who is this app meant for?</button>
+    <div class="panel">
+        <p>Ideally, anybody and everybody! Whether you're a chef at an upscalre restaurant, a hobby chef cooking for one, a foodie enthusiast browsing for recipes, or a home cook feeding a family of 6, or any other mix or match of a food consumer, MealMaker can generate recipes for you! Do you have a suggestion to improve our app? <a asp-area="" asp-controller="Home" asp-action="Contact">We would love to hear from you!</a></p>
+    </div>
+
+    <button class="accordion">After I build a recipe, can I save that recipe?</button>
+    <div class="panel">
+        <p>I'm shocked at how creative these recipes are sometimes too! Currently, the best way for you to save the recipe is copy and paste the text into a text editor or email of your choice. Watch for our <a  asp-area="" asp-controller="Home" asp-action="About">updates</a> when the Food Logger is released so you can create an account and save your favorite recipes!</p>
+    </div>
+
+    <button class="accordion">When I build a recipe, can I avoid ingredients or have specific flavor profiles?</button>
+    <div class="panel">
+        <p>Very soon! An update will be pushed soon including a text input field where you can add modifications to the recipe before it's generated. For example, you could use: Peanut Allergy, No bell peppers, Extra Spicy, or Dairy Free. Watch our <a  asp-area="" asp-controller="Home" asp-action="About">updates</a> for when this will be released!</p>
+    </div>
+</section>
+
+<p>Still stuck? <a asp-area="" asp-controller="Home" asp-action="Contact">Contact us!</a></p>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

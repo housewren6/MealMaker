@@ -55,7 +55,13 @@ namespace Floggr.Controllers
                 return View();
             }
         }
+        [HttpGet]
         public IActionResult ThankYou()
+        {
+            return View();
+        }
+        [HttpGet]
+        public IActionResult Help()
         {
             return View();
         }
