@@ -1,5 +1,64 @@
 ﻿<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
 <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+<script src="~/js/jquery-3.7.1.min.js"></script>
+<script>
+    $(document).ready(function () {
+        //calls loading circle when form submit button is clicked to display until recipe call complete & redirect to View
+        $(".build-meal-button").on("click", function () {
+            // $(this).prop("disabled", true);
+            showLoading();
+            var formData = $("#build-meal-form").serialize();
+            $.ajax({
+                type: "POST",
+                // url: "/MealMaker/ViewMeal",
+                url: "/MealMaker/BuildMeal",
+                data: formData,
+                success: function (data) {
+                    ;
+                    hideLoading();
+                    $("body").html(data);
+                },
+                error: function () {
+                    hideLoading();
+                }
+            });
+        });
+    });
+    $(document).ready(function () {
+        //calls loading circle when form submit button is clicked to display until recipe call complete & redirect to View
+        $(".build-random-meal-button").on("click", function () {
+            // $(this).prop("disabled", true);
+            showLoading();
+            var formData = $("#build-meal-form").serialize();
+            $.ajax({
+                type: "POST",
+                // url: "/MealMaker/ViewMeal",
+                url: "/MealMaker/ViewRandomMeal",
+                data: formData,
+                success: function (data) {
+                    ;
+                    hideLoading();
+                    $("body").html(data);
+                },
+                error: function () {
+                    hideLoading();
+                }
+            });
+        });
+    });
+
+    function showLoading() {
+        $("#loading-overlay").css("display", "flex");
+        $("#loading-overlay").show();
+        $("#loading-bar").animate({ width: "100%" }, 10000, function () { });
+    }
+
+    function hideLoading() {
+        $("#loading-bar").stop();
+        $("#loading-bar").width(0);
+        $("#loading-overlay").hide();
+    }
+</script>
 <script>
     var acc = document.getElementsByClassName("accordion");
     var i;
