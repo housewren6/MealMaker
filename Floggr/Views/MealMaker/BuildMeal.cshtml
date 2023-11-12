@@ -42,12 +42,11 @@
                 </div>
             }
             <div class="form-group btn-meal-container">
-                <button type="submit" class="btn-meal build-meal-button">Build this Meal!</button>
-                @* <input type="submit" value="Build this Meal!" class="btn-meal" /> *@
+                <button type="submit" class="btn-meal build-meal-button">Build this Meal!</button>                
             </div>            
         </form>  
         <div class="btn-meal-container">
-            <button class="btn-meal build-random-meal-button" @* onclick="window.location.href = '@Url.Action("ViewRandomMeal", "MealMaker")'" *@>Random!</button>
+            <button class="btn-meal build-random-meal-button">Random!</button>
         </div>
     </div>
 </div>
@@ -55,65 +54,6 @@
     <div id="loading-spinner"></div>
 </div>
 
-<script src="~/js/jquery-3.7.1.min.js"></script>
-<script>
-    $(document).ready(function () {
-        //calls loading circle when form submit button is clicked to display until recipe call complete & redirect to View
-        $(".build-meal-button").on("click", function () {
-            // $(this).prop("disabled", true);
-            showLoading();
-            var formData = $("#build-meal-form").serialize();
-            $.ajax({
-                type: "POST",
-                // url: "/MealMaker/ViewMeal",
-                url: "/MealMaker/BuildMeal",
-                data: formData,
-                success: function (data) {
-                    ;
-                    hideLoading();
-                    $("body").html(data);
-                },
-                error: function () {
-                    hideLoading();
-                }
-            });
-        });
-    });
-    $(document).ready(function () {
-        //calls loading circle when form submit button is clicked to display until recipe call complete & redirect to View
-        $(".build-random-meal-button").on("click", function () {
-            // $(this).prop("disabled", true);
-            showLoading();
-            var formData = $("#build-meal-form").serialize();
-            $.ajax({
-                type: "POST",
-                // url: "/MealMaker/ViewMeal",
-                url: "/MealMaker/ViewRandomMeal",
-                data: formData,
-                success: function (data) {
-                    ;
-                    hideLoading();
-                    $("body").html(data);
-                },
-                error: function () {
-                    hideLoading();
-                }
-            });
-        });
-    });
-
-    function showLoading() {
-        $("#loading-overlay").css("display", "flex");
-        $("#loading-overlay").show();
-        $("#loading-bar").animate({ width: "100%" }, 10000, function () { });
-    }
-
-    function hideLoading() {
-        $("#loading-bar").stop();
-        $("#loading-bar").width(0);
-        $("#loading-overlay").hide();
-    }
-</script> 
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");        

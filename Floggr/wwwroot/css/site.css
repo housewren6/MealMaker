@@ -44,7 +44,7 @@ body {
 #header {
     top:0px;
 }
-
+/*CONTACT PAGE AND FORM*/
 .social-links{
     padding-top:10px;
 }
@@ -96,6 +96,7 @@ body {
 .contact .email-form button:hover {
   background: #ffa012;
 }
+/*RECIPE BUILDER FORM BUTTON/ICONS*/
 .view-meal {
     font-family: "Poppins", sans-serif;
     font-size: 1.2rem;
@@ -133,7 +134,7 @@ body {
 .btn-meal-container {
     text-align: center;
 }
-
+/*SPINNING LOADING WHEEL FOR RECIPE AI API CALL*/
 #loading-overlay {
     position: fixed;
     top: 0;
@@ -165,6 +166,7 @@ body {
         transform: rotate(360deg);
     }
 }
+/*ALL FOODS PAGINATION*/
 .arrow-button {
     font-size: 1.5rem;
     padding: 0 16px;
@@ -194,3 +196,42 @@ a {
     padding-top: 20px;
 }
 
+/*ACCORDIANS: FAQ, RELEASE NOTES*/
+.accordion {
+    background-color: #eee;
+    color: #444;
+    cursor: pointer;
+    padding: 18px;
+    width: 100%;
+    border: none;
+    text-align: left;
+    outline: none;
+    font-size: 15px;
+    transition: 0.4s;
+}
+
+active, .accordion:hover {
+   background-color: #ccc;
+}
+.accordion:after {
+  content: '\002B';
+  color: #777;
+  font-weight: bold;
+  float: right;
+  margin-left: 5px;
+}
+
+.active:after {
+  content: "\2212";
+}
+.panel p{
+    padding-top: 1rem;
+}
+
+.panel {
+  padding:  0px 18px;
+  background-color: white;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.2s ease-out;
+}

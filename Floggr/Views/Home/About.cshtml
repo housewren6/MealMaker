@@ -1,23 +1,57 @@
-﻿
-
-@{
+﻿@{
     ViewData["Title"] = "About";
 }
 
 <h1>About</h1>
 <p>
-    MealMaker is an app designed to help you decide what to make for dinner! 
-    Clicking the <a asp-area="" asp-controller="FoundationFood" asp-action="MealMaker">Meal Maker</a> link will bring you to your random list of ingredients. 
-    You can retry as many times as you like and each time will be returned with random food items!
-    All foods in the database can be viewed on the <a asp-area="" asp-controller="FoundationFood" asp-action="ListFoundationFoods">All Foods</a> page.
+    MealMaker is an app designed to help you decide what to make for dinner! Clicking the <a asp-area="" asp-controller="MealMaker" asp-action="BuildMeal">Meal Maker</a> link will bring you to a recipe builder page. You can select one, multiple, or none of each main food type (proteins, vegetables, etc) to be used in the recipe generated. Once you have selected the foods you want to use, or instead use the Random button, a recipe will be generated including the recipe name, ingredients and amounts, and instructions to prepare it. All foods available to the MealMaker app can be viewed on the <a asp-area="" asp-controller="FoundationFood" asp-action="ListFoundationFoods">All Foods</a> page.
 </p>
-<p>Designed and created by HouseWren Development</p>
+<p>Designed and created by House Wren Development</p>
+
 <h2>Upcoming features:</h2>
 <ul>
-    <li>Contact section - reach out directly to House Wren Development -> <strong>Released!</strong> Click the <a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a> link</li>
-    <li>Paging on All Foods list - view the foods in pages of 20 items instead of one long list</li>
-    <li>View food nutritional facts on the All Foods page -> <strong>Released!</strong> Visit the <a asp-area="" asp-controller="FoundationFood" asp-action="ListFoundationFoods">All Foods</a> page</li>
-    <li>Selecting a Food to stay consistent while all other foods are randomly returned -> <strong>Released!</strong> Visit the <a asp-area="" asp-controller="MealMaker" asp-action="BuildMeal">Build Meal</a> page</li>
-    <li>Food Logger app to save meals and view meals' nurtritional facts</li>
+    <li>View food nutritional facts on the All Foods page</li>    
+    <li>Add a modification to the recipe (e.g. Peanut Allergy, No bell peppers, Extra Spicy)</li>
+    <li>Improve accessibility on the site for audio-preferred, sight impaired, or non-sighted users</li>
+    <li>Food Logger app including user account to save meals and view meals' nurtritional facts</li>
 </ul>
 
+<section id="accordian-releases">
+    <h3>Release History</h3>
+    <button class="accordion">November 8, 2023 - Update site language</button>
+    <div class="panel">
+        <p>Add <a asp-area="" asp-controller="Home" asp-action="Help">frequently asked questions</a>, add release history summaries, update upcoming features, update About and Home page language, update contact links.</p>
+    </div>
+    <button class="accordion">November 2, 2023 - Update error handling</button>
+    <div class="panel">
+        <p>Add error handling for when AI API is called too many times within the time limit constraints.</p>
+    </div>
+    <button class="accordion">October 22, 2023 - Multiple user experience updates</button>
+    <div class="panel">
+        <p>
+            Added pagination and the option for different page sizes on the All Foods page to more easily sort through the foods. Display loading wheel on MealMaker page when the AI API is called to build a recipe. Create input menus for user to select specific foods for recipe to be generated.
+        </p>
+    </div>
+    <button class="accordion">October 14, 2023 - Add Recipe builder AI</button>
+    <div class="panel">
+        <p>Integrate OpenAI davinci model API call to use the random ingredients returned for the meal to generate a recipe with instructions and ingredient amounts. </p>
+    </div>
+
+    <button class="accordion">September 1, 2023 - Add contact page</button>
+    <div class="panel">
+        <p>Added the <a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a> page to get in touch with House Wren Development and other HWD social links.</p>
+    </div>
+
+    <button class="accordion">August 31, 2023 - MealMaker Web App Launch</button>
+    <div class="panel">
+        <p>
+            Hello, World! from the freshly released MealMaker web app. This verison included a single page list of all USDA Foundation Foods on the All Foods page and when navigating to the MealMaker page, the page displayed a random list of ingredients for a meal within the USDA recommended ratios.
+        </p>
+    </div>
+</section>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
