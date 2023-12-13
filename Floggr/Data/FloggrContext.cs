@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RootFoundationFoods;
+using Floggr.Models.ViewModels;
 
 namespace Floggr.Data
 {
@@ -40,5 +41,6 @@ namespace Floggr.Data
             modelBuilder.Entity<Root>().ToTable("RootFoundationFoods");
 
         }
+        public DbSet<Floggr.Models.ViewModels.FoodDetailsView> FoodDetail { get; set; }
     }
 }

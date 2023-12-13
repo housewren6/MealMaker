@@ -10,7 +10,7 @@ namespace Floggr.Controllers
     public class MealMakerController : Controller
     {
         private readonly FloggrContext _context;
-        OpenAIController oac = new OpenAIController();
+        //OpenAIController oac = new OpenAIController();
         private IQueryable<SelectFood> selectFoodNameCatResults;
         private string[] arrProteins = { "Beef Products", "Finfish and Shellfish Products", "Legumes and Legume Products", "Nut and Seed Products", "Pork Products", "Poultry Products", "Sausages and Luncheon Meats" };
         private string[] arrGrains = { "Baked Products", "Cereal Grains and Pasta" };

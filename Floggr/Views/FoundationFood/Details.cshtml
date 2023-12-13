@@ -1,0 +1,56 @@
+﻿@model Floggr.Models.ViewModels.FoodDetailsView
+
+@{
+    ViewData["Title"] = "Food Nutrition Facts";
+}
+
+<h1>Nutrition Facts for:</h1>
+
+<div>
+    <h2>@Html.DisplayFor(model => model.FoodName)</h2>
+    <hr />
+    <p>All nutrient amounts are per 100g of each food </p>
+   @*  <dl class="row">
+        <dt class="col-10">
+            @Html.DisplayNameFor(model => model.FoodDetailsID)
+        </dt>
+        <dt class="col-2">
+            @Html.DisplayFor(model => model.FoodDetailsID)
+        </dt>
+    </dl> *@
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+               Nutrient
+            </th>
+            <th>
+               Amount 
+            </th>
+            <th>
+                Unit
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.FoodNutrientDetails)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NutrientName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Amount)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UnitName)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<div>
+    <a asp-area ="" asp-controller="FoundationFood" asp-action="ListfoundationFoods">Back to List</a>
+</div>
